@@ -7,7 +7,10 @@ from user_input import UserInput
 
 load_dotenv()
 
-bot = Bot(os.getenv('BOT_TOKEN'))
+bot = Bot(
+    token=os.getenv('BOT_TOKEN'),
+    parse_mode="HTML"
+)
 dp = Dispatcher(bot)
 
 

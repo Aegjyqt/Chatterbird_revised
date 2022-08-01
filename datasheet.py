@@ -1,4 +1,5 @@
 import openpyxl
+from aiogram.utils.markdown import hcode
 
 _all_categories = []  # лучше наверное set, но получаю unresolved attribute reference 'append' for class '()', add тоже
 _translations_dict = {}  # они нужны мне как переменные класса, но это не работает. Почему?
@@ -33,7 +34,7 @@ class Datasheet:
             key = ''.join(temp)
             keys.append(key)
             items.append(sheet[i][4].value)
-            self.category_dict[key] = items[keys.index(key)] + f", актуальность: {sheet[i][2].value}"
+            self.category_dict[key] = hcode(items[keys.index(key)]) + f", актуальность: {sheet[i][2].value}"
         _translations_dict.update(self.category_dict)
 
 

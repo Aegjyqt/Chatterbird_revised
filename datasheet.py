@@ -14,12 +14,14 @@ class Datasheet:
         self.category_dict = {}
 
     def get_ids(self) -> None:
+        """ Gets category IDs from a specific sheet, appends the complete list of categories """
         sheet = self.wb[self.name]
         for row in range(2, sheet.max_row):  # почему не получается с просто range(sheet.max_row)?
             self.category_ids.append(sheet[row][1].value)
         _all_categories.append(self)
 
     def get_category_dict(self) -> None:
+        """ Gets keys and items for a category dictionary, updates complete translation dictionary """
         sheet = self.wb[self.name]
         keys = []
         items = []
@@ -35,14 +37,9 @@ class Datasheet:
         _translations_dict.update(self.category_dict)
 
 
-
 departments = Datasheet('lists_for_translator.xlsx', 'управление')
 departments.get_ids()  # эти вызовы можно как-то сократить?  если не в конструкторе? или так надежнее?
 departments.get_category_dict()
 faculties = Datasheet('lists_for_translator.xlsx', 'факультет')
 faculties.get_ids()
 faculties.get_category_dict()
-
-
-
-

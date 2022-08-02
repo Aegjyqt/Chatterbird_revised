@@ -1,4 +1,4 @@
-welcome = "Hi! This is Chatterbied. For additional info, type /about"
+welcome = "Hi! This is Chatterbird. For additional info, type /about"
 
 about = "Chatterbot was designed to supplement the Translator service in ITMO's ISU system.\n" \
         "As of now, Chatterbird isn't connected to Translator's database, so there's no relevance data.\n" \

@@ -38,9 +38,9 @@ class Datasheet:
         _translations_dict.update(self.category_dict)
 
 
-departments = Datasheet('lists_for_translator.xlsx', 'управление')
+departments = Datasheet('lists_for_chatterbird.xlsx', 'управление')
 departments.get_ids()  # эти вызовы можно как-то сократить?  если не в конструкторе? или так надежнее?
 departments.get_category_dict()
-faculties = Datasheet('lists_for_translator.xlsx', 'факультет')
+faculties = Datasheet('lists_for_chatterbird.xlsx', 'факультет')
 faculties.get_ids()
 faculties.get_category_dict()

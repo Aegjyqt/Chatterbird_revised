@@ -26,8 +26,7 @@ async def about_message(message: types.Message):
 
 @dp.message_handler()
 async def process_user_input(message: types.Message):
-    temp = UserInput(message.text)
-    result = temp.process_translate()
+    result = UserInput().get_translation(message.text)
     if result:
         await message.answer(result)
     else:

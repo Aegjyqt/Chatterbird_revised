@@ -4,30 +4,25 @@ import datasheet
 class UserInput:
     """Governs user input"""
 
-    def __init__(self, user_input: str) -> None:
-        self.user_input = user_input
-        self.process_simplify()
-        self.process_declensions()
+    def __init__(self) -> None:
+        pass
 
-    def process_simplify(self) -> None:
+    def get_simplified_string(self, string_for_prcocessing: str) -> str:
         """changes text format to lowercase, gets rid of quotation marks"""
-        temp = list(self.user_input.lower())
-        for i in temp:
-            if i == "\"":
-                temp.remove(i)
-        self.user_input = ''.join(temp)
+        return string_for_prcocessing.lower().replace("\"", "")
 
-    def process_declensions(self) -> None:
+    def get_string_with_nominative_identifier(self, user_input: str) -> str:
         """ process_declension: changes category-specific identifier words to the nominative case"""
-        elements = self.user_input.split(' ')
-        for category in datasheet._all_categories:  # вообще я хочу сделать _all_categories элементом класса. Тогда сделать функцию, которая будет ее доставать?
-            temp_list = category.category_ids
-            for i in range(0, len(elements) - 1):  # кажется, я что-то упускаю, можно проще?
-                if elements[i] in temp_list:
-                    elements[i] = category.name
-        self.user_input = ' '.join(elements)
+        user_input_elements = user_input.split(' ')
+        for category in datasheet.Datasheet().get_all_categories():
+            category_ids_list = datasheet.Datasheet().get_ids()
+            for word in user_input_elements:
+                if word in category_ids_list:
+                    user_input_elements[user_input_elements.index(word)] = category.name
+        return ' '.join(user_input_elements)
 
-    def process_translate(self) -> str:
+    def get_translation(self, user_input: str) -> str:
         """ process_translate: translates a string processed with the two of the above """
-        if self.user_input in datasheet._translations_dict:  # # вообще я хочу сделать _all_categories элементом класса. Тогда сделать функцию, которая будет ее доставать?
-            return datasheet._translations_dict[self.user_input]
+        pre_processed_str = self.get_string_with_nominative_identifier(user_input)
+        if pre_processed_str in datasheet.Datasheet.get_translations_entire_dict():
+            return datasheet.Datasheet.get_translations_entire_dict()[user_input]

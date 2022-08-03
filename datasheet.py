@@ -3,17 +3,23 @@ from aiogram.utils.markdown import hcode
 
 
 class Datasheet:
-    """ Governs essential data fom a specific sheet """  # ввести указания на columns как переменные
+    """ Governs essential data fom a specific sheet """
     _all_categories = []  # как реализовать это как set?
     _translations_entire_dict = {}
+    """ The following attributes are for specific columns in .xlsx file sheets: """
+    _name_column = 0  # еще раз проверить, кажется не используется вообще
+    _ids_column = 1
+    _relevance_column = 2
+    _keys_column = 3
+    _items_column = 4
 
-    def __init__(self) -> None:  # вынеси наполнение конструктора в функции, не жадничай. Тогда проблемы не будет
+    def __init__(self) -> None:
         self.category_dict = {}
         self.sheet_data = []  # как тут можно применить Namedtuple? и целесообразно ли?
 
     def specify_sheet_data(self, wb: str, name: str) -> (str, str):
         """ Sets workbook and sheet name for a specific class instance """
-        this_sheet_data = [wb, name]  # name также используется в
+        this_sheet_data = [wb, name]  # name также используется в user_input, подумать как сделать лучше
         self.sheet_data = this_sheet_data
         self._all_categories.append(self)
 
@@ -23,7 +29,7 @@ class Datasheet:
         sheet = wb[self.sheet_data[1]]
         category_ids = []
         for row in range(2, sheet.max_row):  # почему не получается с просто range(sheet.max_row)?
-            category_ids.append(sheet[row][1].value)
+            category_ids.append(sheet[row][self._ids_column].value)
         return category_ids
 
     def get_category_dict(self) -> None:
@@ -33,14 +39,14 @@ class Datasheet:
         keys = []
         items = []
         for i in range(2, sheet.max_row):
-            temp = list(sheet[i][3].value.lower())
+            temp = list(sheet[i][self._keys_column].value.lower())
             for n in temp:
                 if n == '\"':
                     temp.remove(n)
             key = ''.join(temp)
             keys.append(key)
-            items.append(sheet[i][4].value)
-            final_item = [hcode(items[keys.index(key)]), f"актуальность: {sheet[i][2].value}"]
+            items.append(sheet[i][self._items_column].value)
+            final_item = [hcode(items[keys.index(key)]), f"актуальность: {sheet[i][self._relevance_column].value}"]
             self.category_dict[key] = final_item
         self._translations_entire_dict.update(self.category_dict)
 
@@ -61,3 +67,4 @@ faculties = Datasheet()
 faculties.specify_sheet_data('lists_for_chatterbird.xlsx', 'факультет')
 faculties.get_ids()
 faculties.get_category_dict()
+

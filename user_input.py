@@ -25,4 +25,4 @@ class UserInput:
         """ process_translate: translates a string processed with the two of the above """
         pre_processed_str = self.get_string_with_nominative_identifier(user_input)
         if pre_processed_str in datasheet.Datasheet().get_translations_entire_dict():
-            return datasheet.Datasheet().get_translations_entire_dict()[user_input]
+            return datasheet.Datasheet().get_translations_entire_dict()[pre_processed_str]

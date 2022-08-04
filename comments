@@ -6,7 +6,8 @@
 
 2. !!! Добавить в будущем: идентификацию пользователя, права, личный словарь -- будет еще полезнее
 
-3. Класс для создания всех категорий
+3. Класс для создания всех категорий -> есть подозрение, что не работает из-за "openpyxl == shit", НО в любом случае
+можно попробовать решить проблему через try - except
 
 class DatabaseMaker:
 
@@ -23,7 +24,7 @@ class DatabaseMaker:
 
 datasheets_list = ['управление', 'факультет']
 
-chatterbird_data = DataMaker(datasheets=datasheets_list, workbook='lists_for_translator.xlsx')
+chatterbird_data = DatabaseMaker(datasheets=datasheets_list, workbook='lists_for_translator.xlsx')
 chatterbird_data.make_database()
 
 4. Docstrings

@@ -39,11 +39,14 @@ class Datasheet:
         keys = []
         items = []
         for i in range(2, sheet.max_row):
-            key = sheet[i][self._keys_column].value.lower().replace("\"", "")
-            keys.append(key)
-            items.append(sheet[i][self._items_column].value)
-            final_item = [hcode(items[keys.index(key)]), f"актуальность: {sheet[i][self._relevance_column].value}"]
-            self.category_dict[key] = final_item
+            try:
+                key = sheet[i][self._keys_column].value.lower().replace("\"", "")
+                keys.append(key)
+                items.append(sheet[i][self._items_column].value)
+                final_item = [hcode(items[keys.index(key)]), f"актуальность: {sheet[i][self._relevance_column].value}"]
+                self.category_dict[key] = final_item
+            except AttributeError:
+                pass
         self._translations_entire_dict.update(self.category_dict)
 
     def get_all_categories(self) -> list:
@@ -55,13 +58,23 @@ class Datasheet:
         return self._translations_entire_dict
 
 
-departments = Datasheet()
-departments.specify_sheet_data('lists_for_chatterbird.xlsx', 'управление')
-departments.get_ids()  # эти вызовы можно как-то сократить? => попробуй сделать класс
-departments.get_category_dict()
-faculties = Datasheet()
-faculties.specify_sheet_data('lists_for_chatterbird.xlsx', 'факультет')
-faculties.get_ids()
-faculties.get_category_dict()
+class DatabaseMaker:
+
+    def __init__(self, datasheets: list, workbook: str) -> None:
+        self.datasheets = datasheets
+        self.workbook = workbook
+
+    def make_database(self):
+        for category_name in self.datasheets:
+            new_category = Datasheet()
+            new_category.specify_sheet_data(self.workbook, category_name)
+            new_category.get_ids()
+            new_category.get_category_dict()
+
+datasheets_list = ['управление', 'факультет']
+
+chatterbird_data = DatabaseMaker(datasheets=datasheets_list, workbook='lists_for_translator.xlsx')
+chatterbird_data.make_database()
+
 
 

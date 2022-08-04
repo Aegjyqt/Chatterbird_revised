@@ -39,11 +39,7 @@ class Datasheet:
         keys = []
         items = []
         for i in range(2, sheet.max_row):
-            temp = list(sheet[i][self._keys_column].value.lower())
-            for n in temp:
-                if n == '\"':
-                    temp.remove(n)
-            key = ''.join(temp)
+            key = sheet[i][self._keys_column].value.lower().replace("\"", "")
             keys.append(key)
             items.append(sheet[i][self._items_column].value)
             final_item = [hcode(items[keys.index(key)]), f"актуальность: {sheet[i][self._relevance_column].value}"]
@@ -67,4 +63,5 @@ faculties = Datasheet()
 faculties.specify_sheet_data('lists_for_chatterbird.xlsx', 'факультет')
 faculties.get_ids()
 faculties.get_category_dict()
+
 

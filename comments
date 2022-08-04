@@ -8,7 +8,7 @@
 
 3. Класс для создания всех категорий
 
-class DataMaker:
+class DatabaseMaker:
 
     def __init__(self, datasheets: list, workbook: str) -> None:
         self.datasheets = datasheets
@@ -29,4 +29,14 @@ chatterbird_data.make_database()
 4. Docstrings
 
 5. переписать имена/цикл в вфефырууе: get_category_dict, get_ids
+
+*** temp
+departments = Datasheet()
+departments.specify_sheet_data('lists_for_chatterbird.xlsx', 'управление')
+departments.get_ids()  # эти вызовы можно как-то сократить? => попробуй сделать класс
+departments.get_category_dict()
+faculties = Datasheet()
+faculties.specify_sheet_data('lists_for_chatterbird.xlsx', 'факультет')
+faculties.get_ids()
+faculties.get_category_dict()
 

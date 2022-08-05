@@ -1,5 +1,6 @@
 import openpyxl
 from aiogram.utils.markdown import hcode
+from database_maker import DatabaseMaker
 
 
 class Datasheet:
@@ -58,23 +59,7 @@ class Datasheet:
         return self._translations_entire_dict
 
 
-class DatabaseMaker:
-
-    def __init__(self, datasheets: list, workbook: str) -> None:
-        self.datasheets = datasheets
-        self.workbook = workbook
-
-    def make_database(self):
-        for category_name in self.datasheets:
-            new_category = Datasheet()
-            new_category.specify_sheet_data(self.workbook, category_name)
-            new_category.get_ids()
-            new_category.get_category_dict()
-
 datasheets_list = ['управление', 'факультет']
 
 chatterbird_data = DatabaseMaker(datasheets=datasheets_list, workbook='lists_for_translator.xlsx')
 chatterbird_data.make_database()
-
-
-
